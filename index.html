@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>十二刻時計</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .clock-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .koku {
+            font-family: "Yu Mincho", "HGP明朝B", serif;
+            font-size: 100px;
+            color: #A22041; /* 深緋 */
+        }
+
+        .digital {
+            font-family: 'Balsamiq Sans', sans-serif;
+            font-size: 50px;
+            color: white;
+            opacity: 0.7;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="digital" id="digital-clock">--:--</div>
+        <div class="koku" id="koku-name">--の刻</div>
+    </div>
+
+    <script>
+        function getKoku(hour) {
+            const koku = [
+                "子", "丑", "寅", "卯", "辰", "巳",
+                "午", "未", "申", "酉", "戌", "亥"
+            ];
+            const koku_index = Math.floor((hour + 1) % 24 / 2);
+            return koku[koku_index] + "の刻";
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            const digitalTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById("digital-clock").textContent = digitalTime;
+            document.getElementById("koku-name").textContent = getKoku(hour);
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
