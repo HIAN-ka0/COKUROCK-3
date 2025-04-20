@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <title>十二刻時計</title>
     <style>
+        /* 衡山毛筆フォントの埋め込み（woff2とwoffを使用） */
+        @font-face {
+            font-family: 'KouzanMouhitu';
+            src: url('./KouzanMouhituFont.woff2') format('woff2'),
+                 url('./KouzanMouhituFont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* デジタル時計用Googleフォント */
         @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
 
         body {
@@ -22,12 +32,14 @@
             text-align: center;
         }
 
+        /* 十二刻フォント：衡山毛筆 */
         .koku {
-            font-family: "Yu Mincho", "HGP明朝B", serif;
+            font-family: 'KouzanMouhitu', "Yu Mincho", "HGP明朝B", serif;
             font-size: 100px;
-            color: #A22041; /* 深緋 */
+            color: #A22041; /* 深緋（ふかひ） */
         }
 
+        /* デジタル時計フォント */
         .digital {
             font-family: 'Balsamiq Sans', sans-serif;
             font-size: 50px;
@@ -60,7 +72,12 @@
             const now = new Date();
             const hour = now.getHours();
             const minute = now.getMinutes();
-            const digitalTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // AM/PM を省くために24時間表記を直接整形
+            const hourStr = hour.toString().padStart(2, '0');
+            const minuteStr = minute.toString().padStart(2, '0');
+            const digitalTime = `${hourStr}:${minuteStr}`;
+
             document.getElementById("digital-clock").textContent = digitalTime;
             document.getElementById("koku-name").textContent = getKoku(hour);
         }
